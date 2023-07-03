@@ -6,7 +6,6 @@ Object.defineProperty(exports, "__esModule", {
 exports.AppDataSource = void 0;
 require("reflect-metadata");
 var _typeorm = require("typeorm");
-var _User = require("./entity/User");
 var AppDataSource = new _typeorm.DataSource({
   type: "postgres",
   host: "localhost",
@@ -14,10 +13,10 @@ var AppDataSource = new _typeorm.DataSource({
   username: "blog",
   password: "",
   database: "blog_development",
-  synchronize: true,
+  synchronize: false,
   logging: false,
-  entities: [_User.User],
-  migrations: [],
-  subscribers: []
+  entities: ['dist/entity/**/*.js'],
+  migrations: ['dist/migration/**/*.js'],
+  subscribers: ['dist/subscriber/**/*.js']
 });
 exports.AppDataSource = AppDataSource;
