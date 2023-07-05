@@ -7,4 +7,9 @@ export class Post {
   title: string;
   @Column('text')
   content: string;
+
+  constructor(title: string, content: string) {
+    this.title = title
+    this.content = content
+  }
 }
