@@ -6,8 +6,6 @@ import {Post} from "./Post";
 export class Comment {
   @PrimaryGeneratedColumn('increment')
   id: number
-  @Column('varchar')
-  title: string
   @Column('text')
   content: string
   @CreateDateColumn()
