@@ -42,12 +42,12 @@ var CreatePosts1688608173903 = /*#__PURE__*/function () {
                     type: 'int'
                   }, {
                     name: 'createdAt',
-                    type: 'time',
+                    type: 'timestamp',
                     isNullable: false,
                     "default": 'now()'
                   }, {
                     name: 'updatedAt',
-                    type: 'time',
+                    type: 'timestamp',
                     isNullable: false,
                     "default": 'now()'
                   }]
