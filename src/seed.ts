@@ -23,4 +23,5 @@ AppDataSource.initialize().then(async (connection) => {
   c1.user = u1
   await manager.save(c1)
   connection.close()
+  console.log('OK!!!')
 }).catch(error => console.log(error))
