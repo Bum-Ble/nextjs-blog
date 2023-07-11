@@ -7,31 +7,25 @@ import {Comment} from "@/src/entity/Comment";
 import {DataSource} from "typeorm";
 
 type Props = {
-  name: string
+  posts: PostType[]
 }
 
 const Posts: NextPage<Props> = (props) => {
+  const {posts} = props
   return (
     <div>
-      这里是首页 {props.name}
-      <div>
-        <Link href='/posts'>进入到我的博客</Link>
-      </div>
+      {posts.map(post => <div key={post.id}>{post.title}</div>)}
     </div>
   );
 }
 export default Posts;
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  const UserRepository = await handleGetRepository(User)
   const PostRepository = await handleGetRepository(Post)
-  const users = await UserRepository.find()
   const posts = await PostRepository.find()
-  console.log(users)
-  console.log(posts)
   return {
     props: {
-      name: 'Bumble'
+      posts: JSON.parse(JSON.stringify(posts))
     }
   };
 };
