@@ -1,10 +1,7 @@
 import Link from "next/link";
 import {GetServerSideProps, NextPage} from "next";
-import {AppDataSource} from "@/src/data-source"
-import {User} from "@/src/entity/User";
 import {Post} from "@/src/entity/Post";
-import {Comment} from "@/src/entity/Comment";
-import {DataSource} from "typeorm";
+import {handleGetRepository} from "@/lib/handleGetRepository";
 
 type Props = {
   posts: PostType[]
@@ -14,7 +11,13 @@ const Posts: NextPage<Props> = (props) => {
   const {posts} = props
   return (
     <div>
-      {posts.map(post => <div key={post.id}>{post.title}</div>)}
+      {posts.map(post =>
+        <div key={post.id}>
+          <Link href={`/posts/${post.id}`}>
+            {post.title}
+          </Link>
+        </div>
+        )}
     </div>
   );
 }
@@ -30,13 +33,4 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   };
 };
 
-const handleGetRepository = async (entity) => {
-  // @ts-ignore
-  const dataSource = new DataSource({
-    ...AppDataSource.options,
-    entities: [User, Post, Comment],
-  });
-  return dataSource.isInitialized
-    ? dataSource.getRepository(entity)
-    : (await dataSource.initialize()).getRepository(entity);
-}
+
