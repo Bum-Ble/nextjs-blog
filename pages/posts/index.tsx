@@ -4,7 +4,7 @@ import {usePosts} from "@/hooks/usePosts";
 import {getPosts} from "@/lib/posts";
 
 type Props = {
-  posts: Post[]
+  posts: PostType[]
 }
 const PostsIndex: NextPage<Props> = (props) => {
   const { posts } = props

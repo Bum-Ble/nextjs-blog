@@ -2,7 +2,7 @@ import {GetStaticPaths, GetStaticProps, NextPage} from "next";
 import {getPost, getPostIds} from "@/lib/posts";
 
 type Props = {
-  post: Post
+  post: PostType
 }
 const postsShow: NextPage<Props> = (props) => {
   const {post} = props
