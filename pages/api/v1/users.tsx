@@ -5,6 +5,7 @@ import md5 from "md5";
 
 
 const Users: NextApiHandler = async (req, res) => {
+  const UserRepository = await handleGetRepository(User)
   const {username, password, passwordConfirmation} = req.body
   const errors = {
     username: [] as string[],
@@ -14,6 +15,11 @@ const Users: NextApiHandler = async (req, res) => {
   if (username.trim() === ''){
     errors.username.push('不能为空')
   }
+  const found = await UserRepository.find({where: {username}})
+  if (found.length !== 0){
+    errors.username.push('已存在，不能重复注册')
+  }
+
   if (!/[a-zA-Z0-9]/.test(username.trim())){
     errors.username.push('只支持数字和字母')
   }
@@ -35,7 +41,6 @@ const Users: NextApiHandler = async (req, res) => {
     res.statusCode = 422
     res.write(JSON.stringify(errors))
   }else{
-    const UserRepository = await handleGetRepository(User)
     const user = new User()
     user.username = username.trim()
     user.passwordDigest = md5(password) as string
