@@ -20,10 +20,10 @@ const SignUp: NextPage = () => {
         window.alert('注册成功')
         window.location.href = '/sign_in'
       }
-    }, (errors) => {
-      const {response}: AxiosResponse = errors
+    }, (error) => {
+      const {response}: AxiosResponse = error
       if (response.status === 422){
-        setErrors({...errors, ...response.data})
+        setErrors(response.data)
       }
     })
   },[formData])
