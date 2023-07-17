@@ -37,9 +37,11 @@ _dataSource.AppDataSource.initialize().then( /*#__PURE__*/function () {
             _context.next = 18;
             return manager.save(c1);
           case 18:
-            connection.close();
-            console.log('OK!!!');
+            _context.next = 20;
+            return connection.close();
           case 20:
+            console.log('OK!!!');
+          case 21:
           case "end":
             return _context.stop();
         }
