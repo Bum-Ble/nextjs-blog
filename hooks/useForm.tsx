@@ -1,7 +1,8 @@
 import React, {useCallback, useState} from "react";
+import {AxiosResponse} from "axios";
 
 
-export function useForm(initFormData, onSubmit, fields, buttons,  ){
+export function useForm(initFormData, fields, buttons, submit ){
   const [formData, setFormData] = useState(initFormData)
   const [errors, setErrors] = useState(() => {
     const e = {}
@@ -19,8 +20,17 @@ export function useForm(initFormData, onSubmit, fields, buttons,  ){
 
   const _onSubmit = useCallback((e) => {
     e.preventDefault()
-    onSubmit(formData)
-  }, [formData, onSubmit])
+    submit.request(formData).then(response => {
+      if (response.status === 200) {
+        window.alert(submit.message)
+      }
+    }, (error) => {
+      const {response}: AxiosResponse = error
+      if (response.status === 422) {
+        setErrors(response.data)
+      }
+    })
+  }, [formData, submit])
 
   const form = (
     <form onSubmit={_onSubmit}>
