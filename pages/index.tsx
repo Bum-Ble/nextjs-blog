@@ -10,7 +10,7 @@ type Props = {
 const Posts: NextPage<Props> = (props) => {
   const {posts} = props
   return (
-    <div>
+    <div>首页
       {posts.map(post =>
         <div key={post.id}>
           <Link href={`/posts/${post.id}`}>
