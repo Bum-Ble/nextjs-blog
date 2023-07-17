@@ -28,7 +28,7 @@ export function useForm(initFormData, onSubmit, fields, buttons,  ){
         <div key={index}>
           <label> {field.label}
             { field.type === 'textarea' ?
-              <textarea onChange={e => onChange(field.key, e.target.value)}>{formData[field.key]}</textarea>
+              <textarea value={formData[field.key]} onChange={e => onChange(field.key, e.target.value)}/>
               :
               <input type={field.type} value={formData[field.key]} onChange={e => onChange(field.key, e.target.value)}/>
             }
