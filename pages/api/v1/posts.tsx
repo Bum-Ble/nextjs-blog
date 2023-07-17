@@ -1,10 +1,18 @@
 import {NextApiHandler} from "next";
-import { getPosts } from '@/lib/posts'
-const Posts: NextApiHandler = async (req, res) => {
-  const posts = await getPosts();
-  res.statusCode = 200
-  res.setHeader('Content-Type', 'application/json; charset=utf-8')
-  res.write(JSON.stringify(posts))
-  res.end()
-}
+import {handleGetRepository} from "@/lib/handleGetRepository";
+import {Post} from "@/src/entity/Post";
+import {withSession} from "@/lib/withSession";
+
+const Posts: NextApiHandler = withSession(async (req, res) => {
+  if (req.method === 'POST'){
+    const {title, content} = req.body
+    const post = new Post()
+    post.title = title
+    post.content = content
+    post.author = req.session.get('currentUser')
+    const PostRepository = await handleGetRepository(Post)
+    await PostRepository.save(post)
+    res.json(post)
+  }
+})
 export default Posts
