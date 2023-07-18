@@ -12,7 +12,10 @@ const PostsNew: NextPage = () => {
     <button type='submit'>提交</button>,
     {
       request: (formData) => axios.post(`/api/v1/posts`, formData),
-      message: '创建成功'
+      success: () => {
+        window.alert('创建成功')
+        window.location.href = '/posts'
+      }
     }
   )
 

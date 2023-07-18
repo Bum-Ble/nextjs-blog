@@ -22,12 +22,17 @@ export function useForm(initFormData, fields, buttons, submit ){
     e.preventDefault()
     submit.request(formData).then(response => {
       if (response.status === 200) {
-        window.alert(submit.message)
+        submit.success(response)
       }
     }, (error) => {
-      const {response}: AxiosResponse = error
-      if (response.status === 422) {
-        setErrors(response.data)
+      if (error.response){
+        const {response}: AxiosResponse = error
+        if (response.status === 422) {
+          setErrors(response.data)
+        }else if (response.status === 401){
+          window.alert('请先登录')
+          window.location.href = `/sign_in?returnTo=${window.location.pathname}`
+        }
       }
     })
   }, [formData, submit])
