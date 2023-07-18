@@ -1,10 +1,13 @@
 import Link from "next/link";
-import {GetServerSideProps, NextPage} from "next";
+import {GetServerSideProps, GetServerSidePropsContext, NextPage} from "next";
 import {handleGetRepository} from "@/lib/handleGetRepository";
 import {Post} from "@/src/entity/Post";
 
 type Props = {
   posts: PostType[]
+  page: number
+  pageSize: number
+  count: number
 }
 const PostsIndex: NextPage<Props> = (props) => {
   const {posts} = props
@@ -19,17 +22,29 @@ const PostsIndex: NextPage<Props> = (props) => {
             </Link>
           </div>)
       }
+      第 {props.page} 页，共 {props.count} 篇文章
+      &nbsp;<Link href={`?page=${props.page - 1}`}>上一页</Link>
+      &nbsp;<Link href={`?page=${props.page + 1}`}>下一页</Link>
     </div>
   )
 }
 export default PostsIndex
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
+export const getServerSideProps: GetServerSideProps = async (context: GetServerSidePropsContext) => {
+  const page  = parseInt(context.query.page as string) || 1
+  const pageSize = 3;
+  const skip = (page - 1) * pageSize;
   const PostRepository = await handleGetRepository(Post)
-  const posts = await PostRepository.find()
+  const [posts, count] = await PostRepository.findAndCount({
+    skip,
+    take:pageSize
+  })
   return {
     props: {
-      posts: JSON.parse(JSON.stringify(posts))
+      posts: JSON.parse(JSON.stringify(posts)),
+      count,
+      page,
+      pageSize
     }
   };
 };
