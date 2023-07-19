@@ -18,8 +18,8 @@ export const usePager = (options: Options) => {
   }
   numbers.push(totalPage)
   const pageNumbers = _.uniq(numbers).sort().filter(n => n >= 1 && n <= totalPage)
-    .reduce((result, n) => {
-      return n - (result[result.length - 1] || 0) === 1 ? result.concat(n) : result.concat(-1, n)
+    .reduce<number[]>((result: number[], n: number) => {
+      return n - (result[result.length - 1] || 0) === 1 ? [...result, n] : [...result, -1, n]
     }, [])
   const pager = (
     <div>

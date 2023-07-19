@@ -18,8 +18,8 @@ const PostsIndex: NextPage<Props> = (props) => {
     <div>
       <h1>文章列表</h1>
       {
-        posts.map(post =>
-          <div key={post.id}>
+        posts.map((post,index) =>
+          <div key={index}>
             <Link href={`/posts/${post.id}`}>
               {post.title}
             </Link>

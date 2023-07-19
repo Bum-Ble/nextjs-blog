@@ -2,7 +2,7 @@ import {useEffect, useState} from "react";
 import axios from "axios";
 
 export const usePosts = () => {
-  const [posts, setPosts] = useState<Post[]>([])
+  const [posts, setPosts] = useState<PostType[]>([])
   const [isLoading, setIsLoading] = useState(false)
   const [isEmpty, setIsEmpty] = useState(false)
   useEffect(() => {

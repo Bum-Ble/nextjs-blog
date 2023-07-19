@@ -42,6 +42,7 @@
       "typescript": "5.1.6"
    },
    "devDependencies": {
-      "@babel/plugin-proposal-decorators": "^7.22.5"
+      "@babel/plugin-proposal-decorators": "^7.22.5",
+      "@types/marked": "^5.0.1"
    }
 }

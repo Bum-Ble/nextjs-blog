@@ -1,24 +1,38 @@
-import React, {useCallback, useState} from "react";
-import {AxiosResponse} from "axios";
+import React, {FormEvent, ReactNode, useCallback, useState} from "react";
+import { AxiosResponse} from "axios";
 
+type Field<T> = {
+  label: string,
+  type: 'text' | 'password' | 'textarea',
+  key: keyof T
+}
 
-export function useForm(initFormData, fields, buttons, submit ){
+export function useForm<T>(
+  initFormData: T,
+  fields: Field<T>[],
+  buttons: ReactNode,
+  submit: {
+    request: (formData: T) => Promise<AxiosResponse<T>>
+    success: (response: AxiosResponse<T>) => void
+  }){
   const [formData, setFormData] = useState(initFormData)
-  const [errors, setErrors] = useState(() => {
+  const [errors, setErrors] = useState<{ [K in keyof T]?: string[] }>(() => {
     const e = {}
     for (let key in initFormData){
-      if (initFormData.hasOwnProperty(key)){ // 为了严谨
+      // @ts-ignore
+      if ((initFormData).hasOwnProperty(key)){ // 为了严谨
+        // @ts-ignore
         e[key] = []
       }
     }
     return e
   })
 
-  const onChange = useCallback((key, value) => {
+  const onChange = useCallback((key: keyof T, value: any) => {
     setFormData({...formData, [key]: value})
   },[formData])
 
-  const _onSubmit = useCallback((e) => {
+  const _onSubmit = useCallback((e:FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     submit.request(formData).then(response => {
       if (response.status === 200) {
@@ -26,7 +40,7 @@ export function useForm(initFormData, fields, buttons, submit ){
       }
     }, (error) => {
       if (error.response){
-        const {response}: AxiosResponse = error
+        const response: AxiosResponse = error.response;
         if (response.status === 422) {
           setErrors(response.data)
         }else if (response.status === 401){
@@ -43,12 +57,12 @@ export function useForm(initFormData, fields, buttons, submit ){
         <div key={index}>
           <label> {field.label}
             { field.type === 'textarea' ?
-              <textarea value={formData[field.key]} onChange={e => onChange(field.key, e.target.value)}/>
+              <textarea value={formData[field.key] as string} onChange={e => onChange(field.key, e.target.value)}/>
               :
-              <input type={field.type} value={formData[field.key]} onChange={e => onChange(field.key, e.target.value)}/>
+              <input type={field.type} value={formData[field.key] as string} onChange={e => onChange(field.key, e.target.value)}/>
             }
           </label>
-          {errors[field.key]?.length > 0 && <div>{errors[field.key].join(',')}</div>}
+          {errors && errors[field.key] && errors[field.key]!.length > 0 && <div>{errors[field.key]!.join(',')}</div>}
         </div>
       )}
       <div>
