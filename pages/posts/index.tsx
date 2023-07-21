@@ -35,7 +35,7 @@ export default PostsIndex
 
 export const getServerSideProps: GetServerSideProps = async (context: GetServerSidePropsContext) => {
   const page  = parseInt(context.query.page as string) || 1
-  const pageSize = 1;
+  const pageSize = 10;
   const skip = (page - 1) * pageSize;
   const PostRepository = await handleGetRepository(Post)
   const [posts, count] = await PostRepository.findAndCount({

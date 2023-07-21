@@ -8,7 +8,7 @@ require("reflect-metadata");
 var _typeorm = require("typeorm");
 var AppDataSource = new _typeorm.DataSource({
   type: "postgres",
-  host: "localhost",
+  host: "192.168.1.22",
   port: 5432,
   username: "blog",
   password: "",
