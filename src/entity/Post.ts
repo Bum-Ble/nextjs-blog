@@ -18,4 +18,6 @@ export class Post {
   author: User
   @OneToMany(type => Comment, comment => comment.post)
   comments: Comment[]
+  @Column('integer')
+  authorId: number
 }

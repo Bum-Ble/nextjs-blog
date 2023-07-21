@@ -8,6 +8,9 @@
 // }
 
 type PostType = {
+  createdAt: Date;
+  username?: string;
+  authorId: number
   id: String
   title: String
   date: String

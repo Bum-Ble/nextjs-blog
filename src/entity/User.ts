@@ -30,6 +30,7 @@ export class User {
   @OneToMany(type => Comment, comment => comment.user)
   comments: Comment[]
 
+
   errors = {
     username: [] as string[],
     password: [] as string[],

@@ -31,7 +31,7 @@ export const usePager = (options: Options) => {
         )
       }
       {page < totalPage && <Link href={urlMaker(page+1)}>下一页</Link>}
-      第 {page}/{totalPage} 页
+      &nbsp;第 {page}/{totalPage} 页
       <style jsx>{`
         .pageBtn{
           margin: 0 8px;
