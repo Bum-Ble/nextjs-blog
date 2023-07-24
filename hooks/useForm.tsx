@@ -1,10 +1,13 @@
 import React, {FormEvent, ReactNode, useCallback, useState} from "react";
-import { AxiosResponse} from "axios";
+import {AxiosResponse} from "axios";
+import cs from "classnames"
 
 type Field<T> = {
   label: string,
   type: 'text' | 'password' | 'textarea',
   key: keyof T
+  className?: string
+  placeholder?: string
 }
 
 export function useForm<T>(
@@ -14,13 +17,13 @@ export function useForm<T>(
   submit: {
     request: (formData: T) => Promise<AxiosResponse<T>>
     success: (response: AxiosResponse<T>) => void
-  }){
+  }) {
   const [formData, setFormData] = useState(initFormData)
   const [errors, setErrors] = useState<{ [K in keyof T]?: string[] }>(() => {
     const e = {}
-    for (let key in initFormData){
+    for (let key in initFormData) {
       // @ts-ignore
-      if ((initFormData).hasOwnProperty(key)){ // 为了严谨
+      if ((initFormData).hasOwnProperty(key)) { // 为了严谨
         // @ts-ignore
         e[key] = []
       }
@@ -30,20 +33,20 @@ export function useForm<T>(
 
   const onChange = useCallback((key: keyof T, value: any) => {
     setFormData({...formData, [key]: value})
-  },[formData])
+  }, [formData])
 
-  const _onSubmit = useCallback((e:FormEvent<HTMLFormElement>) => {
+  const _onSubmit = useCallback((e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     submit.request(formData).then(response => {
       if (response.status === 200) {
         submit.success(response)
       }
     }, (error) => {
-      if (error.response){
+      if (error.response) {
         const response: AxiosResponse = error.response;
         if (response.status === 422) {
           setErrors(response.data)
-        }else if (response.status === 401){
+        } else if (response.status === 401) {
           window.alert('请先登录')
           window.location.href = `/sign_in?returnTo=${window.location.pathname}`
         }
@@ -54,12 +57,15 @@ export function useForm<T>(
   const form = (
     <form onSubmit={_onSubmit}>
       {fields.map((field, index) =>
-        <div key={index}>
-          <label> {field.label}
-            { field.type === 'textarea' ?
-              <textarea value={formData[field.key] as string} onChange={e => onChange(field.key, e.target.value)}/>
+        <div key={index} className={cs('field', `field-${field.key}`, field.className)}>
+          <label className="label">
+            { field.label ? <span className="label-text">{field.label}</span>: null }
+            {field.type === 'textarea' ?
+              <textarea className="control" value={formData[field.key] as string} placeholder={field.placeholder}
+                        onChange={e => onChange(field.key, e.target.value)}/>
               :
-              <input type={field.type} value={formData[field.key] as string} onChange={e => onChange(field.key, e.target.value)}/>
+              <input className="control" type={field.type} value={formData[field.key] as string} placeholder={field.placeholder}
+                     onChange={e => onChange(field.key, e.target.value)}/>
             }
           </label>
           {errors && errors[field.key] && errors[field.key]!.length > 0 && <div>{errors[field.key]!.join(',')}</div>}
@@ -68,11 +74,35 @@ export function useForm<T>(
       <div>
         {buttons}
       </div>
+      <style jsx>{`
+        .field {
+          margin: 8px 0;
+        }
+
+        .label {
+          display: flex;
+          line-height: 32px;
+        }
+
+        .label input {
+          height: 32px;
+        }
+
+        .label > .label-text {
+          white-space: nowrap;
+          margin-right: 1em;
+        }
+
+        .label > .control {
+          width: 100%;
+        }
+      `}</style>
     </form>
   )
 
   return {
     form,
-    setErrors
+    setErrors,
+    formData
   }
 }
