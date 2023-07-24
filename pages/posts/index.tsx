@@ -17,11 +17,13 @@ const PostsIndex: NextPage<Props> = (props) => {
   const {pager} = usePager({page, totalPage})
   return (
     <div className="wrapper">
+      <div className="overlay"/>
+      {/* 添加蒙版层 */}
       <div className="content">
         <header>
-          <h1>文章列表</h1>
+          <h1 className="textColor">文章列表</h1>
           <Link href="/posts/new">
-            <span className="button" style={{}}>
+            <span className="button textColor">
               新增文章
             </span>
           </Link>
@@ -52,20 +54,41 @@ const PostsIndex: NextPage<Props> = (props) => {
           justify-content: space-between;
           align-items: flex-end;
         }
+        .textColor{
+          //color: #f5f5f5;
+        }
         .wrapper{
+          background-image: url("/img.png");
+          background-size: cover;  /* 宽高比保持不变，并尽量填满容器 */
+          background-repeat: no-repeat;  /* 不重复图片 */
+          background-position: center;  /* 将背景图放置在容器中心 */
           width: 100%;
           min-height: 100vh;
-          background-color: #FDF5E6;
           padding: 30px 0;
         }
+        .overlay {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background-color: rgba(51, 51, 51, 0.5); /* 设置蒙版层颜色和透明度 */
+        }
         .content{
+          position:relative;
+          padding: 60px 100px;
+          background-color: rgb(232, 232, 232, 0.8);
           margin: 0 auto;
           max-width: 800px;
+          box-shadow: rgba(17, 12, 46, 0.15) 0px 48px 100px 0px;
+          border-radius: 6px;
+          z-index: 1;
         }
         .onePost{
-          margin: 20px 0;
+          margin: 26px 0;
           padding: 16px;
-          background-color:#fff;
+          background-color:rgb(244, 244, 242, 0.5);
+          border-radius: 4px;
           cursor:pointer;
           display: flex;
           flex-direction: column;
@@ -73,7 +96,7 @@ const PostsIndex: NextPage<Props> = (props) => {
         }
         .onePost :hover{
           transition: 300ms all ;
-          box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+          box-shadow: rgb(73, 84, 100, 0.4) 0px 4px 12px;
         }
         .postTitle{
           font-size: 20px;
@@ -102,17 +125,17 @@ const PostsIndex: NextPage<Props> = (props) => {
         .button{
           width: 100px;
           height:40px; 
-          background-color: #BA704F;
+          background-color: rgb(187, 191, 202);
           display: flex;
           justify-content: center;
           align-items: center;
-          color: #f5f5f5;
           font-size: 14px;
           cursor:pointer;
+          box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
         }
         .button:hover{
-          background-color: rgba(186, 112, 79, 0.8);
-          box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+          background-color: rgb(73, 84, 100, 0.5);
+          color: #f5f5f5;
         }
       `}</style>
     </div>
@@ -122,7 +145,7 @@ export default PostsIndex
 
 export const getServerSideProps: GetServerSideProps = async (context: GetServerSidePropsContext) => {
   const page  = parseInt(context.query.page as string) || 1
-  const pageSize = 10;
+  const pageSize = 6;
   const skip = (page - 1) * pageSize;
   const PostRepository = await handleGetRepository(Post)
   const UserRepository = await handleGetRepository(User)
