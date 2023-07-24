@@ -2,6 +2,7 @@ import Head from 'next/head'
 import Layout from '../components/layout';
 import { AppProps } from 'next/app';
 import '../styles/globals.css'
+import 'github-markdown-css'
 
 export default function MyApp({ Component, pageProps }: AppProps) {
   return <>
