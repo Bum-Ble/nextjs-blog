@@ -15,7 +15,8 @@ const postsShow: NextPage<Props> = (props) => {
       <div className="wrapper">
         <div className="content">
           <div className="link">
-            <Link href="/posts">返回列表 </Link>
+            <Link  href={`/posts/${post.id}/edit`}><a className="link-text">编辑</a></Link>
+            <Link  href="/posts"><a className="link-text">返回列表</a></Link>
           </div>
           <h1>{post.title}</h1>
           <article className="markdown-body" dangerouslySetInnerHTML={{__html: marked.parse(post.content)}}/>
@@ -30,6 +31,10 @@ const postsShow: NextPage<Props> = (props) => {
           .link{
             display: flex;
             justify-content: flex-end;
+          }
+          .link-text{
+            margin-left: 10px;
+            text-decoration: none;
           }
 
           .content {

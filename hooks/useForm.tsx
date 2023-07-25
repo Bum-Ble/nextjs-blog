@@ -49,6 +49,8 @@ export function useForm<T>(
         } else if (response.status === 401) {
           window.alert('请先登录')
           window.location.href = `/sign_in?returnTo=${window.location.pathname}`
+        }else{
+          window.alert(response.data)
         }
       }
     })
