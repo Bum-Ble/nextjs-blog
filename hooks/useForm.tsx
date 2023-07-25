@@ -57,7 +57,7 @@ export function useForm<T>(
   const form = (
     <form onSubmit={_onSubmit}>
       {fields.map((field, index) =>
-        <div key={index} className={cs('field', `field-${field.key}`, field.className)}>
+        <div key={index} className={cs('field', `field-${field.key as string}`, field.className)}>
           <label className="label">
             { field.label ? <span className="label-text">{field.label}</span>: null }
             {field.type === 'textarea' ?

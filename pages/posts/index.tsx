@@ -154,7 +154,7 @@ export const getServerSideProps: GetServerSideProps = async (context: GetServerS
     take:pageSize
   })
   await Promise.all(posts.map(async (post) => {
-    const { username } = await UserRepository.findOne({ where: { id: post.authorId } });
+    const { username } = await UserRepository.findOne({ where: { id: post.authorId } }) as User;
     post.username = username;
   }));
   return {
