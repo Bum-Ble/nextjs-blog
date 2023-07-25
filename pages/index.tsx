@@ -1,14 +1,15 @@
 import {NextPage} from "next";
 import Link from "next/link";
+import Image from "next/image"
 
 const Home: NextPage = () => {
   return (
     <>
       <div className="cover">
-        <div className="overlay"/>
-        {/* 添加蒙版层 */}
+        <Image src="/background.jpg" alt=""  layout="fill" priority={true}/>
+        <div className="overlay"/> {/* 添加蒙版层 */}
         <div className="content">
-          <img src="/logo.png" className="logo" alt=""/>
+          <Image src="/logo.png" alt="" width={200} height={200}/>
           <h1>Bumble的个人博客</h1>
           <p>{`if ( coffee.empty() ) { code.develop() }`}</p>
           <Link href="/posts">
@@ -23,9 +24,6 @@ const Home: NextPage = () => {
             position: relative;
             width: 100%;
             height: 100vh;
-            background-image: url("/background.jpg");
-            background-size: cover;
-            background-position: center;
           }
 
           .overlay {
@@ -46,11 +44,6 @@ const Home: NextPage = () => {
             flex-direction: column;
             height: 100%;
             z-index: 1;
-          }
-
-          .logo {
-            width: 200px;
-            height: 200px;
           }
 
           .button-text {
