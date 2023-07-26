@@ -4,8 +4,9 @@ import {Post} from "@/src/entity/Post";
 import {withSession} from "@/lib/withSession";
 
 const Posts: NextApiHandler = withSession(async (req, res) => {
+  const {id} = req.query
   if (req.method === 'PATCH'){
-    const {title, content, authorId, id} = req.body
+    const {title, content, authorId} = req.body
     const user = req.session.get('currentUser')
     if (!user){
       res.statusCode = 401

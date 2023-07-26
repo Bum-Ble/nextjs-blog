@@ -18,7 +18,7 @@ const PostEdit: NextPage = (props) => {
       <button className="btn actions" type='submit'>提交</button>
     </>,
     {
-      request: (formData) => axios.patch(`/api/v1/posts/${id}`, {...formData, id, authorId: post.authorId}),
+      request: (formData) => axios.patch(`/api/v1/posts/${id}`, {...formData, authorId: post.authorId}),
       success: () => {
         window.alert('编辑成功')
       }
