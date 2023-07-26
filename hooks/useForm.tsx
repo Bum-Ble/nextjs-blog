@@ -50,7 +50,7 @@ export function useForm<T>(
           window.alert('请先登录')
           window.location.href = `/sign_in?returnTo=${window.location.pathname}`
         }else{
-          window.alert(response.data)
+          window.alert(response.data.message)
         }
       }
     })
