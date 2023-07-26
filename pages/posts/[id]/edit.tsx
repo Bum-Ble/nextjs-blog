@@ -49,6 +49,10 @@ const PostEdit: NextPage = (props) => {
             resize: none;
             border: 1px solid #c9cdd4;
           }
+          .postsNew .field-title input{
+            border: 1px solid #c9cdd4;
+          }
+          
           .postsNew .btn{
             padding: 4px;
             width: 120px;

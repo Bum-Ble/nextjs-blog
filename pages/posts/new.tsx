@@ -7,8 +7,8 @@ const PostsNew: NextPage = () => {
   const {form, formData} = useForm(
     {title: '', content: ''},
     [
-      {label: '', type: 'text', key: 'title', placeholder:'请输入文章标题'},
-      {label: '', type: 'textarea', key: 'content', placeholder:'请输入文章内容'}
+      {label: '', type: 'text', key: 'title', placeholder: '请输入文章标题'},
+      {label: '', type: 'textarea', key: 'content', placeholder: '请输入文章内容'}
     ],
     <>
       <button className="btn back" onClick={() => window.location.href = '/posts'} type='button'>返回列表</button>
@@ -33,10 +33,11 @@ const PostsNew: NextPage = () => {
           <div className="markdown-body" dangerouslySetInnerHTML={{__html: marked(formData.content)}}/>
         </div>
         <style jsx global>{`
-          .postsNew{
+          .postsNew {
             display: flex;
             padding: 16px;
           }
+
           .postsNew .wrapper {
             width: 50%;
             margin-right: 10px;
@@ -47,7 +48,12 @@ const PostsNew: NextPage = () => {
             resize: none;
             border: 1px solid #c9cdd4;
           }
-          .postsNew .btn{
+
+          .postsNew .field-title input {
+            border: 1px solid #c9cdd4;
+          }
+
+          .postsNew .btn {
             padding: 4px;
             width: 120px;
             height: 40px;
@@ -55,19 +61,23 @@ const PostsNew: NextPage = () => {
             border: none;
             border-radius: 3px;
           }
+
           .postsNew .actions {
             background-color: #749BC2;
             color: #f5f5f5;
           }
-          .postsNew .actions:hover{
+
+          .postsNew .actions:hover {
             background-color: #56789A;
-            cursor:pointer;
+            cursor: pointer;
           }
-          .postsNew .back:hover{
+
+          .postsNew .back:hover {
             background-color: #dcdcdc;
-            cursor:pointer;
+            cursor: pointer;
           }
-          .preview{
+
+          .preview {
             height: 40em;
             width: 50%;
             box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
@@ -75,7 +85,8 @@ const PostsNew: NextPage = () => {
             padding: 10px;
             overflow: auto;
           }
-          .preview .preview-text{
+
+          .preview .preview-text {
             color: #8a919f;
             font-size: 13px;
           }

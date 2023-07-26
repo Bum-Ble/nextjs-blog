@@ -29,7 +29,7 @@ const PostsIndex: NextPage<Props> = (props) => {
           </Link>
         </header>
         {
-          posts.map((post,index) =>
+          posts.map((post, index) =>
             <Link href={`/posts/${post.id}`} key={index}>
               <div className="onePost">
                 <div>
@@ -37,7 +37,8 @@ const PostsIndex: NextPage<Props> = (props) => {
                   <div className="postContent"> {post.content} </div>
                 </div>
                 <div className="postBottom">
-                  <span>作者：{post.username} </span>
+                  <span>作者：{post.username} {post.username === 'Bumble' ?
+                    <span className="orange-tag">博主</span> : null}</span>
                   <span>发布时间：{post.createdAt.toString().split('T')[0]} </span>
                 </div>
               </div>
@@ -49,23 +50,26 @@ const PostsIndex: NextPage<Props> = (props) => {
         </footer>
       </div>
       <style jsx>{`
-        header{
+        header {
           display: flex;
           justify-content: space-between;
           align-items: flex-end;
         }
-        .textColor{
+
+        .textColor {
           //color: #f5f5f5;
         }
-        .wrapper{
+
+        .wrapper {
           background-image: url("/img.png");
-          background-size: cover;  /* 宽高比保持不变，并尽量填满容器 */
-          background-repeat: no-repeat;  /* 不重复图片 */
-          background-position: center;  /* 将背景图放置在容器中心 */
+          background-size: cover; /* 宽高比保持不变，并尽量填满容器 */
+          background-repeat: no-repeat; /* 不重复图片 */
+          background-position: center; /* 将背景图放置在容器中心 */
           width: 100%;
           min-height: 100vh;
           padding: 30px 0;
         }
+
         .overlay {
           position: fixed;
           top: 0;
@@ -74,8 +78,9 @@ const PostsIndex: NextPage<Props> = (props) => {
           height: 100%;
           background-color: rgba(51, 51, 51, 0.5); /* 设置蒙版层颜色和透明度 */
         }
-        .content{
-          position:relative;
+
+        .content {
+          position: relative;
           padding: 60px 100px;
           background-color: rgb(232, 232, 232, 0.8);
           margin: 0 auto;
@@ -84,25 +89,29 @@ const PostsIndex: NextPage<Props> = (props) => {
           border-radius: 6px;
           z-index: 1;
         }
-        .onePost{
+
+        .onePost {
           margin: 26px 0;
           padding: 16px;
-          background-color:rgb(244, 244, 242, 0.5);
+          background-color: rgb(244, 244, 242, 0.5);
           border-radius: 4px;
-          cursor:pointer;
+          cursor: pointer;
           display: flex;
           flex-direction: column;
           justify-content: space-between;
         }
-        .onePost :hover{
-          transition: 300ms all ;
+
+        .onePost :hover {
+          transition: 300ms all;
           box-shadow: rgb(73, 84, 100, 0.4) 0px 4px 12px;
         }
-        .postTitle{
+
+        .postTitle {
           font-size: 20px;
           font-weight: bold;
         }
-        .postContent{
+
+        .postContent {
           font-size: 15px;
           color: #5c6066;
           display: -webkit-box;
@@ -112,30 +121,44 @@ const PostsIndex: NextPage<Props> = (props) => {
           text-overflow: ellipsis;
           margin: 10px 0;
         }
-        .postBottom{
+
+        .postBottom {
           color: #8a9aa9;
           font-size: 14px;
           display: flex;
           justify-content: space-between;
         }
-        .pager{
+
+        .pager {
           display: flex;
           justify-content: flex-end;
         }
-        .button{
+
+        .button {
           width: 100px;
-          height:40px; 
+          height: 40px;
           background-color: rgb(187, 191, 202);
           display: flex;
           justify-content: center;
           align-items: center;
           font-size: 14px;
-          cursor:pointer;
+          cursor: pointer;
           box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
         }
-        .button:hover{
+
+        .button:hover {
           background-color: rgb(73, 84, 100, 0.5);
           color: #f5f5f5;
+        }
+
+        .orange-tag {
+          font-size: 12px;
+          display: inline-block;
+          padding: 3px 6px;
+          color: #d46b08;
+          background: #fff7e6;
+          border-color: #ffd591;
+          border-radius: 4px;
         }
       `}</style>
     </div>
@@ -144,17 +167,17 @@ const PostsIndex: NextPage<Props> = (props) => {
 export default PostsIndex
 
 export const getServerSideProps: GetServerSideProps = async (context: GetServerSidePropsContext) => {
-  const page  = parseInt(context.query.page as string) || 1
+  const page = parseInt(context.query.page as string) || 1
   const pageSize = 6;
   const skip = (page - 1) * pageSize;
   const PostRepository = await handleGetRepository(Post)
   const UserRepository = await handleGetRepository(User)
   const [posts, count] = await PostRepository.findAndCount({
     skip,
-    take:pageSize
+    take: pageSize
   })
   await Promise.all(posts.map(async (post) => {
-    const { username } = await UserRepository.findOne({ where: { id: post.authorId } }) as User;
+    const {username} = await UserRepository.findOne({where: {id: post.authorId}}) as User;
     post.username = username;
   }));
   return {
