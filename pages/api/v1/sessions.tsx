@@ -1,6 +1,7 @@
 import {NextApiHandler} from "next";
 import {SignIn} from "@/src/model/SignIn";
-import {withSession} from "@/lib/withSession";
+import { withIronSessionApiRoute } from "iron-session/next";
+import { sessionOptions } from "@/lib/session";
 
 const Sessions: NextApiHandler = async (req, res) => {
   const {username, password} = req.body
@@ -14,11 +15,10 @@ const Sessions: NextApiHandler = async (req, res) => {
     res.end(JSON.stringify(signIn.errors))
   }else {
     // @ts-ignore
-    req.session.set('currentUser', signIn.user)
-    // @ts-ignore
+    req.session.currentUser = signIn.user
     await req.session.save()
     res.statusCode = 200
     res.end(JSON.stringify(signIn.user))
   }
 }
-export default withSession(Sessions)
+export default withIronSessionApiRoute(Sessions, sessionOptions)

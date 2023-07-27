@@ -1,15 +1,16 @@
 import {NextApiHandler} from "next";
 import {handleGetRepository} from "@/lib/handleGetRepository";
 import {Post} from "@/src/entity/Post";
-import {withSession} from "@/lib/withSession";
+import {withIronSessionApiRoute } from "iron-session/next";
+import { sessionOptions } from "@/lib/session";
 
-const Posts: NextApiHandler = withSession(async (req, res) => {
+const Posts: NextApiHandler = withIronSessionApiRoute(async (req, res) => {
   const {id} = req.query
   const PostRepository = await handleGetRepository(Post)
   const post = await PostRepository.findOneBy({id}) as PostType
   const authorId = post.authorId
   const {title, content} = req.body
-  const user = req.session.get('currentUser')
+  const user = req.session.currentUser
   if (!user){
     res.statusCode = 401
     res.end()
@@ -31,5 +32,5 @@ const Posts: NextApiHandler = withSession(async (req, res) => {
       res.status(500).json({ message: '删除操作失败' })
     }
   }
-})
+}, sessionOptions)
 export default Posts

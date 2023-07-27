@@ -1,11 +1,12 @@
 import {NextApiHandler} from "next";
 import {handleGetRepository} from "@/lib/handleGetRepository";
 import {Post} from "@/src/entity/Post";
-import {withSession} from "@/lib/withSession";
+import {withIronSessionApiRoute } from "iron-session/next";
+import { sessionOptions } from "@/lib/session";
 
-const Posts: NextApiHandler = withSession(async (req, res) => {
+const Posts: NextApiHandler = withIronSessionApiRoute(async (req, res) => {
   if (req.method === 'POST'){
-    const user = req.session.get('currentUser')
+    const user = req.session.currentUser
     if (!user){
       res.statusCode = 401
       res.end()
@@ -20,5 +21,5 @@ const Posts: NextApiHandler = withSession(async (req, res) => {
     await PostRepository.save(post)
     res.json(post)
   }
-})
+}, sessionOptions)
 export default Posts

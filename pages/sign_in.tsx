@@ -1,6 +1,7 @@
 import {GetServerSideProps, NextPage} from "next";
 import axios from "axios";
-import {withSession} from "@/lib/withSession";
+import { withIronSessionSsr } from "iron-session/next";
+import { sessionOptions } from "@/lib/session";
 import {User} from "@/src/entity/User";
 import {useForm} from "@/hooks/useForm";
 import qs from 'querystring'
@@ -26,7 +27,7 @@ const SignIn: NextPage<{ user: User }> = (props) => {
 
   return (
     <>
-      {/*{ props.user && <div> 当前登录用户为 {props.user.username} </div> }*/}
+      { props.user && <div> 当前登录用户为 {props.user.username} </div> }
       <div className="signIn">
         <Image src="/background.jpg" alt="" layout="fill" priority={true}/>
         <div className="overlay"/> {/* 添加蒙版层 */}
@@ -109,12 +110,12 @@ const SignIn: NextPage<{ user: User }> = (props) => {
 };
 export default SignIn
 
-export const getServerSideProps: GetServerSideProps = withSession(async (context) => {
+export const getServerSideProps: GetServerSideProps = withIronSessionSsr(async (context) => {
   // @ts-ignore
-  const user = context.req.session.get('currentUser') || '' as User;
+  const user = context.req.session.currentUser || '' as User
   return {
     props: {
       user: JSON.parse(JSON.stringify(user))
     }
   };
-});
+}, sessionOptions);
