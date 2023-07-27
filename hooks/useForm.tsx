@@ -70,7 +70,7 @@ export function useForm<T>(
                      onChange={e => onChange(field.key, e.target.value)}/>
             }
           </label>
-          {errors && errors[field.key] && errors[field.key]!.length > 0 && <div>{errors[field.key]!.join(',')}</div>}
+          {errors && errors[field.key] && errors[field.key]!.length > 0 && <div className="errors">{errors[field.key]!.join(',')}</div>}
         </div>
       )}
       <div>
