@@ -137,7 +137,9 @@ const PostsIndex: NextPage<Props> = (props) => {
         .button {
           width: 100px;
           height: 40px;
-          background-color: rgb(187, 191, 202);
+          background-color:#4682A9;
+          border-radius: 4px;
+          color: #f5f5f5;
           display: flex;
           justify-content: center;
           align-items: center;
@@ -147,8 +149,7 @@ const PostsIndex: NextPage<Props> = (props) => {
         }
 
         .button:hover {
-          background-color: rgb(73, 84, 100, 0.5);
-          color: #f5f5f5;
+          background-color: #749BC2;
         }
 
         .orange-tag {

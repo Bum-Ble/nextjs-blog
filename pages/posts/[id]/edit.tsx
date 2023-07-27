@@ -62,11 +62,11 @@ const PostEdit: NextPage = (props) => {
             border-radius: 3px;
           }
           .postsNew .actions {
-            background-color: #749BC2;
+            background-color: #4682A9;
             color: #f5f5f5;
           }
           .postsNew .actions:hover{
-            background-color: #56789A;
+            background-color: #749BC2;
             cursor:pointer;
           }
           .postsNew .back:hover{
