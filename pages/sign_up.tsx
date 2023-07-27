@@ -14,7 +14,10 @@ const SignUp: NextPage = () => {
     <button type='submit' className="actions">注 册</button>,
     {
       request: (formData) => axios.post(`/api/v1/users`, formData),
-      success: () => window.alert('注册成功')
+      success: () => {
+        window.alert('注册成功')
+        window.location.href = '/posts/sign_in'
+      }
     }
   )
 
