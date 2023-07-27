@@ -16,9 +16,9 @@ const PostsNew: NextPage = () => {
     </>,
     {
       request: (formData) => axios.post(`/api/v1/posts`, formData),
-      success: () => {
+      success: (response) => {
         window.alert('创建成功')
-        window.location.href = '/posts'
+        window.location.href = `/posts/${response.data.id}`
       }
     }
   )
