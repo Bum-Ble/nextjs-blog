@@ -1,19 +1,36 @@
 import React, {useEffect, useState} from "react";
 import Link from "next/link";
+import {useRouter} from "next/router";
 
 const Header = (req, res) => {
   const [currentUser, setCurrentUser] = useState(null);
-
+  const router = useRouter();
   useEffect(() => {
-    fetch("/api/session")
+    fetch("/api/v1/session")
       .then((response) => response.json())
       .then((data) => {setCurrentUser(data.session)});
   }, []);
 
+  const onLogout =async () => {
+    try {
+      await fetch("/api/v1/logout", {
+        method: "POST",
+      });
+      window.alert('退出登录成功')
+      window.location.href = '/'
+    } catch (error) {
+      console.error("退出登录时出错");
+    }
+  }
+
   return (
     <header className="headerWrapper">
       {
-        currentUser && currentUser.username ? <div> 当前登录用户为 {currentUser.username} </div>
+        currentUser && currentUser.username ?
+          <div>
+            当前登录用户为 {currentUser.username}
+            <button onClick={onLogout} className="logoutBtn">退出登录</button>
+          </div>
           :
           <div>
             <Link href="/sign_up"><a>注册</a></Link>
@@ -35,6 +52,17 @@ const Header = (req, res) => {
           display: flex;
           justify-content: space-between;
         }
+        .logoutBtn{
+          border: none;
+          background-color: transparent;
+          padding: 0;
+          color: #999;
+          margin-left: 10px;
+        }
+        .logoutBtn:hover{
+          color: #f5f5f5;
+          cursor:pointer;
+        }
 
         a {
           color: #999;
@@ -43,7 +71,7 @@ const Header = (req, res) => {
         }
 
         a:hover {
-          color: white;
+          color: #f5f5f5;
         }
       `}</style>
     </header>
