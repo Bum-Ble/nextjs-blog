@@ -6,6 +6,7 @@ import {User} from "@/src/entity/User";
 import {useForm} from "@/hooks/useForm";
 import qs from 'querystring'
 import Image from "next/image";
+import Link from "next/link";
 
 const SignIn: NextPage<{ user: User }> = (props) => {
   const {form} = useForm(
@@ -36,6 +37,12 @@ const SignIn: NextPage<{ user: User }> = (props) => {
           <div className="formWrapper">
             {form}
           </div>
+          <Link href='/sign_up'>
+            <div className="signup">
+              <div className="signup-text">没有账号，点击注册</div>
+            </div>
+          </Link>
+
         </div>
         <style jsx global>{`
           .signIn {
@@ -102,6 +109,20 @@ const SignIn: NextPage<{ user: User }> = (props) => {
             margin-top: 3px;
             color: #D21312;
             padding-left: 4rem;
+          }
+          .signIn .signup{
+            margin-top: 20px;
+            width: 100%;
+            display: flex;
+            justify-content: flex-end;
+          }
+          .signIn .signup-text{
+            color: #999;
+            font-size: 14px;
+          }
+          .signIn .signup-text:hover{
+            color: #f5f5f5;
+            cursor: pointer;
           }
         `}</style>
       </div>
