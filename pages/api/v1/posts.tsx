@@ -6,6 +6,7 @@ import { sessionOptions } from "@/lib/session";
 
 const Posts: NextApiHandler = withIronSessionApiRoute(async (req, res) => {
   if (req.method === 'POST'){
+    // @ts-ignore
     const user = req.session.currentUser
     if (!user){
       res.statusCode = 401

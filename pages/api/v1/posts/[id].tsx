@@ -10,6 +10,7 @@ const Posts: NextApiHandler = withIronSessionApiRoute(async (req, res) => {
   const post = await PostRepository.findOneBy({id}) as PostType
   const authorId = post.authorId
   const {title, content} = req.body
+  // @ts-ignore
   const user = req.session.currentUser
   if (!user){
     res.statusCode = 401

@@ -1,8 +1,9 @@
 import React, {useEffect, useState} from "react";
 import Link from "next/link";
 import {useRouter} from "next/router";
+import {User} from "@/src/entity/User";
 
-const Header = (req, res) => {
+const Header = () => {
   const [currentUser, setCurrentUser] = useState(null);
   const router = useRouter();
   useEffect(() => {
@@ -26,9 +27,9 @@ const Header = (req, res) => {
   return (
     <header className="headerWrapper">
       {
-        currentUser && currentUser.username ?
+        currentUser && (currentUser as User).username ?
           <div>
-            当前登录用户为 {currentUser.username}
+            当前登录用户为 {(currentUser as User).username}
             <button onClick={onLogout} className="logoutBtn">退出登录</button>
           </div>
           :

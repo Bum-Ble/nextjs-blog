@@ -16,7 +16,7 @@ export function useForm<T>(
   buttons: ReactNode,
   submit: {
     request: (formData: T) => Promise<AxiosResponse<T>>
-    success: (response: AxiosResponse<T>) => void
+    success: (response: AxiosResponse) => void
   }) {
   const [formData, setFormData] = useState(initFormData)
   const [errors, setErrors] = useState<{ [K in keyof T]?: string[] }>(() => {

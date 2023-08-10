@@ -5,10 +5,15 @@ import {marked} from "marked";
 import {handleGetRepository} from "@/lib/handleGetRepository";
 import {Post} from "@/src/entity/Post";
 
-const PostEdit: NextPage = (props) => {
+type Props = {
+  post?: PostType,
+  id?: number
+}
+
+const PostEdit: NextPage = (props:Props) => {
   const {post, id} = props
   const {form, formData} = useForm(
-    {title: post.title, content: post.content},
+    {title: post?.title, content: post?.content},
     [
       {label: '', type: 'text', key: 'title', placeholder:'请输入文章标题'},
       {label: '', type: 'textarea', key: 'content', placeholder:'请输入文章内容'}
@@ -32,7 +37,7 @@ const PostEdit: NextPage = (props) => {
         <div className="preview">
           <span className="preview-text">预览区</span>
           <h1>{formData.title}</h1>
-          <div className="markdown-body" dangerouslySetInnerHTML={{__html: marked(formData.content)}}/>
+          <div className="markdown-body" dangerouslySetInnerHTML={{__html: marked(formData.content as string)}}/>
         </div>
         <style jsx global>{`
           .postsNew{
@@ -101,7 +106,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   return {
     props: {
       post: JSON.parse(JSON.stringify(post)),
-      id: parseInt(params.id)
+      id: parseInt(params?.id as string)
     }
   };
 };
