@@ -9,7 +9,12 @@ const Header = () => {
   useEffect(() => {
     fetch("/api/v1/session")
       .then((response) => response.json())
-      .then((data) => {setCurrentUser(data.session)});
+      .then((data) => {
+        if (data.session === null){ // 未登录状态，cookie不存在
+          return
+        }
+        setCurrentUser(data.session)
+      });
   }, []);
 
   const onLogout =async () => {
