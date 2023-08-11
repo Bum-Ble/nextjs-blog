@@ -13,7 +13,7 @@ var AppDataSource = new _typeorm.DataSource({
   port: 5432,
   username: "blog",
   password: "",
-  database: "blog_development",
+  database: "".concat(process.env.NODE_ENV === 'production' ? 'blog_production' : 'blog_development'),
   synchronize: false,
   logging: false,
   entities: ['dist/entity/**/*.js'],
