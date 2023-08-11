@@ -16,7 +16,7 @@ const SignUp: NextPage = () => {
       request: (formData) => axios.post(`/api/v1/users`, formData),
       success: () => {
         window.alert('注册成功')
-        window.location.href = '/posts/sign_in'
+        window.location.href = '/sign_in'
       }
     }
   )

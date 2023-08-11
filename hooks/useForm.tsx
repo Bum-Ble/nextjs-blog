@@ -50,7 +50,11 @@ export function useForm<T>(
           window.alert('请先登录')
           window.location.href = `/sign_in?returnTo=${window.location.pathname}`
         }else{
-          window.alert(response.data.message)
+          if (response.data.message){
+            window.alert(response.data.message)
+          }else{
+            window.alert('服务器出错啦，请稍后再试')
+          }
         }
       }
     })
