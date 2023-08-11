@@ -17,7 +17,7 @@ const PostsIndex: NextPage<Props> = (props) => {
   const {pager} = usePager({page, totalPage})
   return (
     <div className="wrapper">
-      <div className="overlay"/>
+      {/*<div className="overlay"/>*/}
       {/* 添加蒙版层 */}
       <div className="content">
         <header>
@@ -61,10 +61,7 @@ const PostsIndex: NextPage<Props> = (props) => {
         }
 
         .wrapper {
-          background-image: url("/img.png");
-          background-size: cover; /* 宽高比保持不变，并尽量填满容器 */
-          background-repeat: no-repeat; /* 不重复图片 */
-          background-position: center; /* 将背景图放置在容器中心 */
+          background-color: #E8E8E8;
           width: 100%;
           min-height: 100vh;
           padding: 30px 0;
@@ -93,7 +90,7 @@ const PostsIndex: NextPage<Props> = (props) => {
         .onePost {
           margin: 26px 0;
           padding: 16px;
-          background-color: rgb(244, 244, 242, 0.5);
+          background-color: rgb(244, 244, 242);
           border-radius: 4px;
           cursor: pointer;
           display: flex;

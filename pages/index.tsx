@@ -9,7 +9,7 @@ const Home: NextPage = () => {
         <Image src="/background.jpg" alt=""  layout="fill" priority={true}/>
         <div className="overlay"/> {/* 添加蒙版层 */}
         <div className="content">
-          <Image src="/logo.png" alt="" width={200} height={200}/>
+          <Image src="/logo.png" alt="" width={200} height={200} priority={true}/>
           <h1>Bumble的个人博客</h1>
           <p>{`if ( coffee.empty() ) { code.develop() }`}</p>
           <Link href="/posts">
